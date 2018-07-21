@@ -21,21 +21,21 @@ function getHost() {
 
 var wms_server = "http://" + getHost() + ":8182/geoserver/";
 
-var elevation = L.tileLayer.wms(wms_server + 'elevation/wms', {
-    layers: 'elevation:srtm_rio_verde',
-    format: 'image/png',
-    transparent: true,
-    version: '1.1.0',
-    //CQL_FILTER: 'cod_ibge_m=' + cod_ibge_m,
-    maxZoom: 21
-});
-
 var limite = L.tileLayer.wms(wms_server + 'siga-urbano/wms', {
     layers: 'siga-urbano:municipio',
     format: 'image/png',
     transparent: true,
     version: '1.1.0',
     CQL_FILTER: 'cod_ibge_m=5007406',
+    maxZoom: 21
+});
+
+var elevation = L.tileLayer.wms(wms_server + 'elevation/wms', {
+    layers: 'elevation:srtm_rio_verde',
+    format: 'image/png',
+    transparent: true,
+    version: '1.1.0',
+    //CQL_FILTER: 'cod_ibge_m=' + cod_ibge_m,
     maxZoom: 21
 });
 
@@ -152,9 +152,9 @@ var baseLayers = {
 };
 
 var overlays = {
-    "Limites do Município": limite,
     "Estradas": roads,
     "MDE - SRTM": elevation,
+    "Limites do Município": limite,
 };
 
 L.control.layers(baseLayers, overlays).addTo(map);
