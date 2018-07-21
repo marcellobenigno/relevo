@@ -6,6 +6,39 @@ function onEachFeature(feature, layer) {
     }
 }
 
+function getHost() {
+    var url = "{{ request.get_host }}";
+    var host = "";
+
+    if (url == "127.0.0.1:8000") {
+        host = "{{ request.get_host }}".slice(0, -5);
+    } else {
+        host = "{{ request.get_host }}";
+    }
+    return host;
+}
+
+
+var wms_server = "http://" + getHost() + ":8182/geoserver/";
+
+var elevation = L.tileLayer.wms(wms_server + 'elevation/wms', {
+    layers: 'elevation:srtm_rio_verde',
+    format: 'image/png',
+    transparent: true,
+    version: '1.1.0',
+    //CQL_FILTER: 'cod_ibge_m=' + cod_ibge_m,
+    maxZoom: 21
+});
+
+var limite = L.tileLayer.wms(wms_server + 'siga-urbano/wms', {
+    layers: 'siga-urbano:municipio',
+    format: 'image/png',
+    transparent: true,
+    version: '1.1.0',
+    CQL_FILTER: 'cod_ibge_m=5007406',
+    maxZoom: 21
+});
+
 // function getColor(jurisdiction) {
 //     switch (jurisdiction) {
 //         case 'Federal':
@@ -66,7 +99,7 @@ $.getJSON(roads_geojson_dataurl, function (data) {
 var div = 'map';
 var map_center = [-18.8003680998, -55.0291442871];
 var zoom_init = 10;
-var layers = [satellite, roads];
+var layers = [satellite, roads, limite];
 
 // caso exista obj, a pag. é detail.html
 var obj = '{{ obj.geom.json|safe }}';
@@ -85,7 +118,7 @@ if (obj) {
     div = 'map-detail';
     road = L.geoJson(JSON.parse(obj), {style: detailStyle});
     road_group = new L.featureGroup([road,]);
-    layers = [satellite, roads, road_group]
+    layers = [satellite, roads, limite, road_group]
 }
 
 var map = L.map(div, {
@@ -119,7 +152,9 @@ var baseLayers = {
 };
 
 var overlays = {
+    "Limites do Município": limite,
     "Estradas": roads,
+    "MDE - SRTM": elevation,
 };
 
 L.control.layers(baseLayers, overlays).addTo(map);
