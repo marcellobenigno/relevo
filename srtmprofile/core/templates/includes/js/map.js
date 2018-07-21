@@ -32,8 +32,8 @@ function onEachFeature(feature, layer) {
 
 function Style() {
     return {
-        color: '#994d00',
-        weight: 2,
+        color: 'orange',
+        weight: 3,
     };
 }
 
@@ -44,6 +44,11 @@ var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</
 
 var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
     streets = L.tileLayer(mbUrl, {id: 'mapbox.streets', attribution: mbAttr});
+
+var satellite = L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+    maxZoom: 21,
+    attribution: 'google'
+});
 
 
 var roads = L.geoJson([], {
@@ -61,7 +66,7 @@ $.getJSON(roads_geojson_dataurl, function (data) {
 var div = 'map';
 var map_center = [-18.8003680998, -55.0291442871];
 var zoom_init = 10;
-var layers = [streets, roads];
+var layers = [satellite, roads];
 
 // caso exista obj, a pag. é detail.html
 var obj = '{{ obj.geom.json|safe }}';
@@ -80,7 +85,7 @@ if (obj) {
     div = 'map-detail';
     road = L.geoJson(JSON.parse(obj), {style: detailStyle});
     road_group = new L.featureGroup([road,]);
-    layers = [streets, roads, road_group]
+    layers = [satellite, roads, road_group]
 }
 
 var map = L.map(div, {
@@ -108,12 +113,13 @@ if (obj) {
 }
 
 var baseLayers = {
-    "Grayscale": grayscale,
-    "Streets": streets
+    "Google Satélite": satellite,
+    "OSM Grayscale": grayscale,
+    "OSM Streets": streets
 };
 
 var overlays = {
-    "Roads": roads,
+    "Estradas": roads,
 };
 
 L.control.layers(baseLayers, overlays).addTo(map);
