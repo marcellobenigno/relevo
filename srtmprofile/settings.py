@@ -29,7 +29,6 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -79,7 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'srtmprofile.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
@@ -87,7 +85,6 @@ DATABASES = {
     'default': config('DATABASE_URL', cast=db_url),
 }
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -106,7 +103,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
@@ -128,8 +124,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static3/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles3')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+MEDIA_URL = '/media3/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles3')
