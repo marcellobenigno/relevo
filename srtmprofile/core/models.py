@@ -52,6 +52,12 @@ class Road(models.Model):
         return reverse('core:detail', args=[str(self.id)])
 
     @property
+    def get_code(self):
+        if self.code is not None:
+            return self.code
+        return ''
+
+    @property
     def len_2d(self):
         return "{:.2f}".format(self.comp_2d / 1000).replace('.', ',')
 
@@ -61,7 +67,8 @@ class Road(models.Model):
 
     @property
     def popup_content(self):
-        popup = "<strong>Comprimento 2D: </strong>{} km<br>".format(self.len_2d)
+        popup = "<strong>Trecho: </strong>{} km<br>".format(self.get_code)
+        popup += "<strong>Comprimento 2D: </strong>{} km<br>".format(self.len_2d)
         popup += "<strong>Comprimento 3D: </strong>{} km<br>".format(self.len_3d)
         popup += "<a href='{}'>+ informações</a>".format(self.get_absolute_url())
         return popup

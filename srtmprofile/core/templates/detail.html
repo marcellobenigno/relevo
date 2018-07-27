@@ -12,7 +12,7 @@
         <canvas id="chart" height="40px"></canvas>
         <hr>
         <div class="col-md-12">
-            <h4 class="text-center">Comprimento 2D: {{ obj.len_2d }} m |
+            <h4 class="text-center">Trecho: {{ obj.code|default_if_none:'--' }} | Comprimento 2D: {{ obj.len_2d }} m |
                 Comprimento 3D: {{ obj.len_3d }} m</h4>
         </div>
     </div>
